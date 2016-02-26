@@ -2,6 +2,7 @@ package it.vinmar;
 
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import it.vinmar.TaxesCalculator.TaxesMapping;
 
@@ -76,5 +77,15 @@ public class BasicTest {
                 "Total: 74.64" + System.getProperty("line.separator");
 
         assertEquals( expectedBill, underTest.getEntireBill());
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void TestUnexpectedTaxRateCombination() {
+
+        TaxesCalculator underTest = new TaxesCalculator();
+
+        underTest.addGood("1 food but not food", 27.99f, TaxesMapping.NORMAL, TaxesMapping.EXCEPT);
+
+        fail("It's not possible to have normal tax rate and except tax rate!");
     }
 }
